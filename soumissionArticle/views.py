@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
-from .forms import ArticleSubmissionForm
-from .models import ArticleSubmission
+from .forms import SoumissionArticleForm
+from .models import SoumissionArticle
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 #from paypal.standard.forms import PayPalPaymentsForm

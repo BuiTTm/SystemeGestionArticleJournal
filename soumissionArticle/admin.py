@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import ArticleSubmission
+from .models import SoumissionArticle
 
 class JournalAdmin(admin.ModelAdmin):
     readonly_fields = ('created',)
 
-admin.site.register(ArticleSubmission, JournalAdmin)
+admin.site.register(SoumissionArticle, JournalAdmin)

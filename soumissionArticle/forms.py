@@ -1,7 +1,7 @@
 from django.forms import ModelForm
-from .models import ArticleSubmission
+from .models import SoumissionArticle
 
-class ArticleSubmissionForm(ModelForm):
+class SoumissionArticleForm(ModelForm):
     class Meta:
-        model = ArticleSubmission
-        fields = ['title']
+        model = SoumissionArticle
+        fields = ['titre']
