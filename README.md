@@ -2,7 +2,7 @@
 
 ## Setup
 
-1. Install Docker version 20.10.21 or newer
+1. Install Docker version 20.10.21 or newer and Docker-compose
 
 2. Start server: `docker compose up -d`
 
