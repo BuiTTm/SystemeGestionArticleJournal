@@ -2,15 +2,9 @@
 
 ## Setup
 
-1. Create [venv](https://docs.python.org/3/tutorial/venv.html): `python3 -m venv env`
+1. Install Docker version 20.10.21 or newer
 
-2. Activate `venv`: `source env/bin/activate`
-
-3. Install dependencies: `pip install -r requirements.txt`
-
-4. Setup database: `docker-compose up -d`
-
-5. Start server: `python manage.py runserver`
+2. Start server: `docker compose up -d`
 
 ## Connect to the database
 
