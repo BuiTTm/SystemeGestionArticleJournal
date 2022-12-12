@@ -1,12 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+#from ..utilisateurs import CustomUser
+from django.conf import settings
 
 class ArticleAuteur(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    auteur_principal = models.ForeignKey(User, on_delete=models.CASCADE, related_name='article_auteur_principal', editable=False, blank=False)
-    auteurs_secondaires = models.ManyToManyField(User, related_name='article_auteurs_secondaires')
+    auteur_principal = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='article_auteur_principal', editable=False, blank=False)
+    auteurs_secondaires = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='article_auteurs_secondaires')
 
 class Article(models.Model):
     class Categorie(models.TextChoices):
