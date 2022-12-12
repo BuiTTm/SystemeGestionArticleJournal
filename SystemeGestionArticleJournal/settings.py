@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'soumissionArticle.apps.JournalConfig'
-
+    'soumissionArticle.apps.JournalConfig',
+    "utilisateurs.apps.UtilisateurConfig", 
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,7 @@ LOGIN_URL = '/login'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "utilisateurs.CustomUser"  # new
+LOGIN_REDIRECT_URL = "home"  # new
+LOGOUT_REDIRECT_URL = "home"  # new

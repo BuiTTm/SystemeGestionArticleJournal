@@ -22,10 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #Auth
     path("utilisateurs/", include("utilisateurs.urls")),  # new
-
-    # path('signup/', views.signupuser, name = 'signupuser'),
-    # path('logout/', views.logoutuser, name = 'logoutuser'),
-    # path('login/', views.loginuser, name = 'loginuser'),
+    path("utilisateurs/", include("django.contrib.auth.urls")),
 
     #User
     path('', views.home, name='home'),
