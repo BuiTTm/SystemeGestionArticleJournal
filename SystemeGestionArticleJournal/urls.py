@@ -26,5 +26,7 @@ urlpatterns = [
 
     #User
     path('', views.home, name='home'),
-
+    
+    # Articles
+    path('articles', views.articles, name='articles'),
 ]

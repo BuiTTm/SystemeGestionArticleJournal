@@ -1,21 +1,25 @@
-from xml.etree.ElementTree import tostring
-from django.shortcuts import render, redirect, get_object_or_404, reverse
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.db import IntegrityError
-from django.contrib.auth import login, logout, authenticate
-from .forms import SoumissionArticleForm
-from .models import SoumissionArticle
-from django.utils import timezone
-from django.contrib.auth.decorators import login_required
-#from paypal.standard.forms import PayPalPaymentsForm
-from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
-from io import BytesIO
-
-import xml.dom.minidom
+from http.client import HTTPResponse
+from django.shortcuts import render
+from .models import Article, ArticleAuteur
 
 def home(request):
     return render(request, 'journal/home.html')
 
+def articles(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            articles_auteurs = ArticleAuteur.objects.filter(auteur_principal_id=request.user.id)
+            ids = map(lambda x: x.id, articles_auteurs)
+                
+            articles = Article.objects.filter(auteur_id__in=ids)
+            context = {
+                'articles': articles,
+            }
+            return render(request, 'articles/list.html', context)
+        else:
+            if request.POST['title']:
+                return render(request, 'journal/home.html')
+            else:
+                return render(request, 'journal/home.html')
+    else:
+        return HTTPResponse('Unauthorized', status=401)
