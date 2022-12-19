@@ -1,0 +1,34 @@
+<!doctype html>
+
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<style>
+    .articles-form {
+        margin-bottom: 20px;
+    }
+
+    .articles-form label {
+        display: block;
+    }
+
+    .articles-form button {
+        margin-top: 20px;
+        display: block;
+    }
+</style>
+
+<div class="mt-5">
+    <h1>Soumettre un article</h1>
+    <p>Vous pourrez soumettre un premier document lorsque l'article sera créé.</p>
+    <form method="post" class="articles-form">
+        {% csrf_token %}
+        {{ formset }}
+        <button type="submit">Créer</button>
+    </form>
+
+    <a href="{% url 'articles' %}">Retourner à mes articles</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+<!doctype html>
+
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<div class="mt-5">
+    <h1>Vos articles</h1>
+    {% if articles|length >= 1 %}
+    <ul>
+        {% for article in articles %}
+        <li><a href="{% url 'article' article.id %}">{{ article.titre }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Désolé, vous n'avez pas encore d'article dans votre compte.</p>
+    {% endif %}
+    <a href="{% url 'articles_new' %}">Soumettre un article</a>
+</div>
+
+{% endblock %}

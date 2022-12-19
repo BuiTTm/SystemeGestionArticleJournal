@@ -1,0 +1,52 @@
+<!doctype html>
+
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<style>
+    .articles-form {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    .articles-form label {
+        display: block;
+    }
+
+    .articles-form button {
+        margin-top: 20px;
+        display: block;
+    }
+</style>
+
+<div class="mt-5" style="padding-bottom: 40px;">
+    <h1>Modifier un article</h1>
+    <a href="{% url 'articles' %}">Retourner à mes articles</a>
+    <form method="post" class="articles-form">
+        {% csrf_token %}
+        {{ formset }}
+        <button type="submit">Sauvegarder</button>
+    </form>
+
+    <h2>Versions</h2>
+    {% if soumissions|length >= 1 %}
+    <ul>
+        {% for soumission in soumissions %}
+        <li>
+            {{ soumission.get_statut_display }} ({{ soumission.created }})
+            <a href="{{ soumission.lien }}" target="_blank">Voir le fichier</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Désolé, vous n'avez pas encore soumis de version pour cet article.</p>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" accept="application/pdf" required name="soumission" />
+        <button type="submit">Ajouter une version</button>
+    </form>
+</div>
+
+{% endblock %}
