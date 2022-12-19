@@ -56,3 +56,11 @@ class SoumissionArticle(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     article = models.ForeignKey(Article, on_delete=models.CASCADE, editable=False, blank=False)
+
+
+class Comite(models.Model):
+    date_limite_evaluation = models.DateTimeField(blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+    evaluateurs = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, blank=False)
