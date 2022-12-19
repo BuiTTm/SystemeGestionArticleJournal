@@ -2,7 +2,8 @@ from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.forms import modelform_factory, Textarea
 from django.http import HttpResponseNotFound
-from .models import Article
+from .models import Article, SoumissionArticle
+from .utils import handle_soumission_article_file_upload
 
 
 ArticleFormSet = modelform_factory(
@@ -54,12 +55,34 @@ def article(request, article_id):
             return HttpResponseNotFound("L'article n'a pas été trouvé.")
 
         if request.method == 'POST':
-            formset = ArticleFormSet(request.POST, instance=article_single)
-            if formset.is_valid():
-                formset.save()
-                return redirect('/articles')
+            if request.FILES and request.FILES['soumission']:
+                soumission_article = SoumissionArticle(article_id=article_id)
+                soumission_article.save()
+
+                filename = f"soumission-{soumission_article.id}.pdf"
+
+                handle_soumission_article_file_upload(
+                    request.FILES['soumission'],
+                    filename
+                )
+
+                soumission_article.lien = f"/static/uploads/{filename}"
+                soumission_article.save()
+
+                formset = ArticleFormSet(instance=article_single)
+            else:
+                formset = ArticleFormSet(request.POST, instance=article_single)
+                if formset.is_valid():
+                    formset.save()
+                    return redirect('/articles')
         else:
             formset = ArticleFormSet(instance=article_single)
-        return render(request, 'articles/single.html', {'formset': formset})
+
+        soumission_articles = SoumissionArticle.objects.filter(
+            article_id=article_id)
+        return render(request, 'articles/single.html', {
+            'formset': formset,
+            'soumissions': soumission_articles
+        })
     else:
         return HTTPResponse('Unauthorized', status=401)

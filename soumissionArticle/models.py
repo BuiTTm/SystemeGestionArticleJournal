@@ -25,10 +25,9 @@ class Article(models.Model):
 
     class Statut(models.TextChoices):
         EN_ATTENTE = "0", "En attente"
-        REFUSE_AVEC_COMMENTAIRES = "1", "Refusé avec commentaires"
-        ACCEPTE_AVEC_COMMENTAIRES_MINEURS = "2", "Accepté avec commentaires mineurs"
-        ACCEPTE_AVEC_COMMENTAIRES_MAJEURS = "3", "Accepté avec commentaires majeurs"
-        ACCEPTE_SANS_COMMENTAIRE = "4", "Accepté sans commentaire"
+        RELECTURE = "1", "Relecture"
+        CAMERA_READY = "2", "Camera Ready"
+        PUBLIE = "3", "Publié"
 
     categorie = models.CharField(max_length=2, choices=Categorie.choices, default=Categorie.ARCHITECTURE)
     statut = models.CharField(max_length=2, choices=Statut.choices, default=Statut.EN_ATTENTE)
@@ -42,8 +41,18 @@ class Article(models.Model):
 
 
 class SoumissionArticle(models.Model):
-    titre = models.TextField()
+    class Statut(models.TextChoices):
+        EN_ATTENTE = "0", "En attente"
+        REFUSE_AVEC_COMMENTAIRES = "1", "Refusé avec commentaires"
+        ACCEPTE_AVEC_COMMENTAIRES_MINEURS = "2", "Accepté avec commentaires mineurs"
+        ACCEPTE_AVEC_COMMENTAIRES_MAJEURS = "3", "Accepté avec commentaires majeurs"
+        ACCEPTE_SANS_COMMENTAIRE = "4", "Accepté sans commentaire"
+
+    lien = models.TextField(blank=False)
+    statut = models.CharField(max_length=2, choices=Statut.choices, default=Statut.EN_ATTENTE)
     created = models.DateTimeField(auto_now_add=True)
+
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, editable=False, blank=False)
 
     def __str__(self):
         return self.titre
