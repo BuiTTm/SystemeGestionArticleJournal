@@ -1,25 +1,17 @@
 from django.db import models
-#from django.contrib.auth.models import User
-#from ..utilisateurs import CustomUser
 from django.conf import settings
 
-class ArticleAuteur(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    auteur_principal = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='article_auteur_principal', editable=False, blank=False)
-    auteurs_secondaires = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='article_auteurs_secondaires')
 
 class Article(models.Model):
     class Categorie(models.TextChoices):
-        ARCHITECTURE =  'AR', 'Architecture'
+        ARCHITECTURE = 'AR', 'Architecture'
         ARTIFICIAL_INTELLIGENCE = 'AI', 'Artificial Intelligence'
         BIOINFORMATICS = 'BI', 'Bioinformatics'
         BIOMEDICAL_ENGINEERING = 'BE', 'Biomedical Engineering'
         BIOTECHNOLOGY = 'BT', 'Biotechnology'
         COMPUTER_SOFTWARE_AND_APPLICATIONS = 'CS', 'Computer software and applications'
         COMPUTING = 'CO', 'Computing'
-        ENGINEERING= 'EG', 'Engineering'
+        ENGINEERING = 'EG', 'Engineering'
         IMAGE_PROCESSING = 'IP', 'Image Processing'
         INFORMATION_TECHNOLOGY = 'IT', 'Information Technology'
         INTERNET_AND_WORLD_WIDE_WEB = 'IN', 'Internet and World Wide Web'
@@ -42,10 +34,12 @@ class Article(models.Model):
     statut = models.CharField(max_length=2, choices=Statut.choices, default=Statut.EN_ATTENTE)
     titre = models.TextField(blank=False)
     description = models.TextField(blank=False, default='')
+    auteurs_secondaires = models.TextField(blank=False, default='')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    auteur = models.ForeignKey(ArticleAuteur, on_delete=models.CASCADE, blank=False)
+    auteur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, editable=False, blank=False)
+
 
 class SoumissionArticle(models.Model):
     titre = models.TextField()
