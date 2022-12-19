@@ -9,7 +9,7 @@
     {% if articles|length >= 1 %}
     <ul>
         {% for article in articles %}
-        <li>{{ article.titre }}</li>
+        <li><a href="{% url 'article' article.id %}">{{ article.titre }}</a></li>
         {% endfor %}
     </ul>
     {% else %}

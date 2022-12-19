@@ -20,14 +20,15 @@ from soumissionArticle import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #Auth
+    # Auth
     path("utilisateurs/", include("utilisateurs.urls")),  # new
     path("utilisateurs/", include("django.contrib.auth.urls")),
 
-    #User
+    # User
     path('', views.home, name='home'),
-    
+
     # Articles
+    path('articles/<int:article_id>', views.article, name='article'),
     path('articles', views.articles, name='articles'),
     path('articles/new', views.articles_new, name='articles_new'),
 ]

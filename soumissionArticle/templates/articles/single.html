@@ -20,12 +20,11 @@
 </style>
 
 <div class="mt-5">
-    <h1>Soumettre un article</h1>
-    <p>Vous pourrez soumettre un premier document lorsque l'article sera créé.</p>
+    <h1>Modifier un article</h1>
     <form method="post" class="articles-form">
         {% csrf_token %}
         {{ formset }}
-        <button type="submit">Créer</button>
+        <button type="submit">Sauvegarder</button>
     </form>
 
     <a href="{% url 'articles' %}">Retourner à mes articles</a>

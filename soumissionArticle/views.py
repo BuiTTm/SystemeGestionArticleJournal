@@ -1,7 +1,18 @@
 from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.forms import modelform_factory, Textarea
+from django.http import HttpResponseNotFound
 from .models import Article
+
+
+ArticleFormSet = modelform_factory(
+    Article, fields=(
+        'titre', 'description', 'auteurs_secondaires', 'categorie'),
+    widgets={
+        'titre': Textarea(attrs={'cols': 80, 'rows': 2}),
+        'description': Textarea(attrs={'cols': 80, 'rows': 4}),
+        'auteurs_secondaires': Textarea(attrs={'cols': 80, 'rows': 2}),
+    })
 
 
 def home(request):
@@ -22,14 +33,6 @@ def articles(request):
 
 def articles_new(request):
     if request.user.is_authenticated:
-        ArticleFormSet = modelform_factory(
-            Article, fields=(
-                'titre', 'description', 'auteurs_secondaires', 'categorie'),
-            widgets={
-                'titre': Textarea(attrs={'cols': 80, 'rows': 2}),
-                'description': Textarea(attrs={'cols': 80, 'rows': 4}),
-                'auteurs_secondaires': Textarea(attrs={'cols': 80, 'rows': 2}),
-            })
         if request.method == 'POST':
             formset = ArticleFormSet(request.POST)
             if formset.is_valid():
@@ -40,5 +43,23 @@ def articles_new(request):
         else:
             formset = ArticleFormSet()
         return render(request, 'articles/new.html', {'formset': formset})
+    else:
+        return HTTPResponse('Unauthorized', status=401)
+
+
+def article(request, article_id):
+    if request.user.is_authenticated:
+        article_single = Article.objects.get(id=article_id)
+        if article_single is None:
+            return HttpResponseNotFound("L'article n'a pas été trouvé.")
+
+        if request.method == 'POST':
+            formset = ArticleFormSet(request.POST, instance=article_single)
+            if formset.is_valid():
+                formset.save()
+                return redirect('/articles')
+        else:
+            formset = ArticleFormSet(instance=article_single)
+        return render(request, 'articles/single.html', {'formset': formset})
     else:
         return HTTPResponse('Unauthorized', status=401)
