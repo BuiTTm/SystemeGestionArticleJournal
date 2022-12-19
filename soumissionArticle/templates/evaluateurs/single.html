@@ -1,0 +1,94 @@
+<!doctype html>
+
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<style>
+    .evaluateurs-article {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    .evaluateurs-article .statut {
+        margin-top: 20px;
+        font-size: 1.2em;
+        padding: 5px 10px;
+        background-color: aquamarine;
+    }
+
+    .evaluateurs-article .statut p {
+        margin: 0;
+    }
+
+    .commentaires-new {
+        margin-top: 40px;
+    }
+
+    .commentaires-new textarea {
+        display: block;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="mt-5" style="padding-bottom: 40px;">
+    <h1>Évaluer un article</h1>
+    <a href="{% url 'evaluations' %}">Retourner à mes comités</a>
+    <div class="evaluateurs-article">
+        <h3>Informations de l'article</h3>
+        <p><strong>Titre</strong>: {{ article.titre }}</p>
+        <p><strong>Description</strong>: {{ article.description }}</p>
+        <p><strong>Auteur</strong>: {{ article.auteur }}</p>
+        <p><strong>Auteurs secondaires</strong>: {{ article.auteurs_secondaires }}</p>
+        <p><strong>Catégorie</strong>: {{ article.get_categorie_display }}</p>
+        <div class="statut">
+            <p>
+                <strong>Statut</strong>: {{ article.get_statut_display }}
+            </p>
+        </div>
+    </div>
+
+    <h2>Versions</h2>
+    {% if soumissions|length >= 1 %}
+    <ul>
+        {% for soumission in soumissions %}
+        <li>
+            Version {{ forloop.revcounter }}: {{ soumission.get_statut_display }}
+            ({{ soumission.created|date:"D d M Y" }},
+            {{ soumission.created|time:"H:i" }})
+            <a href="{{ soumission.lien }}" target="_blank">Télécharger l'article</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Désolé, vous n'avez pas encore soumis de version pour cet article.</p>
+    {% endif %}
+
+    <h2>Commentaires</h2>
+    {% if soumissions|length >= 1 %}
+    {% if commentaires|length >= 1 %}
+    <ul>
+        {% for commentaire in commentaires %}
+        <li>
+            <p style="margin-bottom: 5px;">{{ commentaire.text }}</p>
+            <p style="font-size: 0.8em; color: rgba(107,114,128)">
+                Par {{ commentaire.evaluateur }} le {{ commentaire.created|date:"d M Y" }} à
+                {{ commentaire.created|time:"H:i" }}
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Désolé, il n'y a pas encore de commentaire sur cet article.</p>
+    {% endif %}
+    <form method="post" class="commentaires-new">
+        {% csrf_token %}
+        <textarea name="comment" required cols="80" rows="3"></textarea>
+        <button type="submit">Publier</button>
+    </form>
+    {% else %}
+    <p>Vous ne pouvez pas encore d'émettre de commentaire sur cet article puisqu'il n'a pas de soumission.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

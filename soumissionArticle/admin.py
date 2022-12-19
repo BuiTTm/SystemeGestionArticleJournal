@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SoumissionArticle, Article, Comite
+from .models import SoumissionArticle, Article, Comite, Commentaire
 
 
 class SoumissionArticleInline(admin.StackedInline):
@@ -48,5 +48,11 @@ class ComiteAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+class CommentaireAdmin(admin.ModelAdmin):
+    list_display = ['text', 'evaluateur', 'comite', 'soumission']
+    ordering = ['created']
+
+
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Comite, ComiteAdmin)
+admin.site.register(Commentaire, CommentaireAdmin)
