@@ -64,3 +64,12 @@ class Comite(models.Model):
 
     evaluateurs = models.ManyToManyField(settings.AUTH_USER_MODEL)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, blank=False)
+
+
+class Commentaire(models.Model):
+    text = models.TextField(blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+    evaluateur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=False)
+    comite = models.ForeignKey(Comite, on_delete=models.CASCADE, blank=False)
+    soumission = models.ForeignKey(SoumissionArticle, on_delete=models.CASCADE, blank=False)

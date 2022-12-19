@@ -2,7 +2,7 @@ from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.forms import modelform_factory, Textarea
 from django.http import HttpResponseNotFound
-from .models import Article, SoumissionArticle, Comite
+from .models import Article, SoumissionArticle, Comite, Commentaire
 from .utils import handle_soumission_article_file_upload
 
 
@@ -108,12 +108,21 @@ def evaluation(request, evaluation_id):
 
         soumission_articles = SoumissionArticle.objects.filter(
             article_id=evaluation_single.article_id).order_by('-created')
-        if request.method == 'POST':
-            print("")
+        if request.method == 'POST' and soumission_articles.count() > 0:
+            comment_text = request.POST['comment']
+            commentaire = Commentaire(
+                text=comment_text,
+                comite_id=evaluation_id,
+                evaluateur_id=request.user.id,
+                soumission_id=soumission_articles[0].id
+            )
+            commentaire.save()
 
+        commentaires = Commentaire.objects.filter(comite_id=evaluation_id).order_by('-created')
         return render(request, 'evaluateurs/single.html', {
             'article': evaluation_single.article,
-            'soumissions': soumission_articles
+            'soumissions': soumission_articles,
+            'commentaires': commentaires
         })
     else:
         return HTTPResponse('Unauthorized', status=401)
