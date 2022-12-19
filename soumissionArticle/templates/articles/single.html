@@ -34,7 +34,8 @@
     <ul>
         {% for soumission in soumissions %}
         <li>
-            {{ soumission.get_statut_display }} ({{ soumission.created }})
+            {{ soumission.get_statut_display }} ({{ soumission.created|date:"D d M Y" }},
+            {{ soumission.created|time:"H:i" }})
             <a href="{{ soumission.lien }}" target="_blank">Voir le fichier</a>
         </li>
         {% endfor %}

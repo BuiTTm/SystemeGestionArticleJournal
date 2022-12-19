@@ -39,6 +39,9 @@ class Article(models.Model):
 
     auteur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, editable=False, blank=False)
 
+    def __str__(self):
+        return self.titre
+
 
 class SoumissionArticle(models.Model):
     class Statut(models.TextChoices):
@@ -54,5 +57,10 @@ class SoumissionArticle(models.Model):
 
     article = models.ForeignKey(Article, on_delete=models.CASCADE, editable=False, blank=False)
 
-    def __str__(self):
-        return self.titre
+
+class Comite(models.Model):
+    date_limite_evaluation = models.DateTimeField(blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+    evaluateurs = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, blank=False)
