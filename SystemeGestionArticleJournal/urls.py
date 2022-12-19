@@ -29,4 +29,5 @@ urlpatterns = [
     
     # Articles
     path('articles', views.articles, name='articles'),
+    path('articles/new', views.articles_new, name='articles_new'),
 ]

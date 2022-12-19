@@ -15,6 +15,7 @@
     {% else %}
     <p>Désolé, vous n'avez pas encore d'article dans votre compte.</p>
     {% endif %}
+    <a href="{% url 'articles_new' %}">Soumettre un article</a>
 </div>
 
 {% endblock %}
