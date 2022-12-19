@@ -2,7 +2,7 @@ from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.forms import modelform_factory, Textarea
 from django.http import HttpResponseNotFound
-from .models import Article, SoumissionArticle
+from .models import Article, SoumissionArticle, Comite
 from .utils import handle_soumission_article_file_upload
 
 
@@ -79,9 +79,40 @@ def article(request, article_id):
             formset = ArticleFormSet(instance=article_single)
 
         soumission_articles = SoumissionArticle.objects.filter(
-            article_id=article_id)
+            article_id=article_id).order_by('-created')
         return render(request, 'articles/single.html', {
             'formset': formset,
+            'soumissions': soumission_articles
+        })
+    else:
+        return HTTPResponse('Unauthorized', status=401)
+
+
+def evaluations(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            comite_list = Comite.objects.filter(evaluateurs=request.user.id)
+            context = {
+                'comites': comite_list,
+            }
+            return render(request, 'evaluateurs/list.html', context)
+    else:
+        return HTTPResponse('Unauthorized', status=401)
+
+
+def evaluation(request, evaluation_id):
+    if request.user.is_authenticated:
+        evaluation_single = Comite.objects.get(id=evaluation_id)
+        if evaluation_single is None:
+            return HttpResponseNotFound("Le comité n'a pas été trouvé.")
+
+        soumission_articles = SoumissionArticle.objects.filter(
+            article_id=evaluation_single.article_id).order_by('-created')
+        if request.method == 'POST':
+            print("")
+
+        return render(request, 'evaluateurs/single.html', {
+            'article': evaluation_single.article,
             'soumissions': soumission_articles
         })
     else:

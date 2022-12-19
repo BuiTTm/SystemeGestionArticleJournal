@@ -22,7 +22,10 @@
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center
             mb-md-0">
             {% if user.is_authenticated %}
-            <li><a href="{% url 'articles' %}" class="nav-link px-2 link-dark"> États des dépôts d'articles</a></li>
+            <li><a href="{% url 'articles' %}" class="nav-link px-2 link-dark"> Mes articles</a></li>
+            {% if user.est_evaluateur %}
+            <li><a href="{% url 'evaluations' %}" class="nav-link px-2 link-dark"> Mes comités d'évaluation </a></li>
+            {% endif %}
           </ul>
           <div class="dropdown text-end">
             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"

@@ -1,0 +1,59 @@
+<!doctype html>
+
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<style>
+    .evaluateurs-article {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    .evaluateurs-article .statut {
+        margin-top: 20px;
+        font-size: 1.2em;
+        padding: 5px 10px;
+        background-color: aquamarine;
+    }
+
+    .evaluateurs-article .statut p {
+        margin: 0;
+    }
+</style>
+
+<div class="mt-5" style="padding-bottom: 40px;">
+    <h1>Évaluer un article</h1>
+    <a href="{% url 'evaluations' %}">Retourner à mes comités</a>
+    <div class="evaluateurs-article">
+        <h3>Informations de l'article</h3>
+        <p><strong>Titre</strong>: {{ article.titre }}</p>
+        <p><strong>Description</strong>: {{ article.description }}</p>
+        <p><strong>Auteur</strong>: {{ article.auteur }}</p>
+        <p><strong>Auteurs secondaires</strong>: {{ article.auteurs_secondaires }}</p>
+        <p><strong>Catégorie</strong>: {{ article.get_categorie_display }}</p>
+        <div class="statut">
+            <p>
+                <strong>Statut</strong>: {{ article.get_statut_display }}
+            </p>
+        </div>
+    </div>
+
+    <h2>Versions</h2>
+    {% if soumissions|length >= 1 %}
+    <ul>
+        {% for soumission in soumissions %}
+        <li>
+            Version {{ forloop.revcounter }}: {{ soumission.get_statut_display }}
+            ({{ soumission.created|date:"D d M Y" }},
+            {{ soumission.created|time:"H:i" }})
+            <a href="{{ soumission.lien }}" target="_blank">Télécharger l'article</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Désolé, vous n'avez pas encore soumis de version pour cet article.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

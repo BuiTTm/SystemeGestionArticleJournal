@@ -1,0 +1,20 @@
+<!doctype html>
+
+{% extends "journal/base.html" %}
+
+{% block content %}
+
+<div class="mt-5">
+    <h1>Vos comités d'évaluation</h1>
+    {% if comites|length >= 1 %}
+    <ul>
+        {% for comite in comites %}
+        <li><a href="{% url 'evaluation' comite.id %}">{{ comite.article.titre }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Désolé, vous ne faites pas encore parti d'un comité.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

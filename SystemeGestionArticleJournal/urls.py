@@ -31,4 +31,8 @@ urlpatterns = [
     path('articles/<int:article_id>', views.article, name='article'),
     path('articles', views.articles, name='articles'),
     path('articles/new', views.articles_new, name='articles_new'),
+
+    # Evaluations
+    path('evaluations/<int:evaluation_id>', views.evaluation, name='evaluation'),
+    path('evaluations', views.evaluations, name='evaluations'),
 ]
