@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'soumissionArticle.apps.JournalConfig',
-    "utilisateurs.apps.UtilisateurConfig", 
+    "utilisateurs.apps.UtilisateurConfig",
     'crispy_forms',
 ]
 

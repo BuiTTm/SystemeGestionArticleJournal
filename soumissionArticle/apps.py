@@ -1,7 +1,5 @@
 from django.db.models.signals import post_save
 from django.apps import AppConfig
-from .signals import create_comite
-from .models import Comite
 
 
 class JournalConfig(AppConfig):
@@ -9,4 +7,6 @@ class JournalConfig(AppConfig):
     name = 'soumissionArticle'
 
     def ready(self):
+        from .models import Comite
+        from .signals import create_comite
         post_save.connect(create_comite, sender=Comite)
