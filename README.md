@@ -41,7 +41,9 @@ auteur2@mgl7361.com
 motdepasse123
 ```
 
-The project will be accessible at http://localhost:8000.
+The project is now accessible at http://localhost:8000.
+
+The admin panel is accessible at http://localhost:8000/admin.
 
 ## Contributing
 
