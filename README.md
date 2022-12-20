@@ -4,7 +4,7 @@
 
 1. Install Docker version 20.10.21 or newer and Docker-compose
 
-2. Start server: `docker compose up -d`. This will also migrate the database.
+2. Start server: `docker compose up -d`. This will also migrate the database. If you ran into file permissions problem, run the command using `sudo`: `sudo docker-compose up -d`.
 
 3. Seed the database with default data:
 
@@ -44,6 +44,8 @@ motdepasse123
 The project is now accessible at http://localhost:8000.
 
 The admin panel is accessible at http://localhost:8000/admin.
+
+You can find a user guide [here](/GUIDE.md). It explains the main features for our software.
 
 ## Contributing
 
