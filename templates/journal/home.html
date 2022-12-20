@@ -3,21 +3,30 @@
 {% extends "journal/base.html" %}
 
 {% block content %}
-<br>
-    <br>
-    <br>
-    <div class="row justify-content-center mt-5">
-        <h1>Organisation Scientifique UQAM MGL Equipe 7</h1>
-    </div>
-    <br>
-    <br>
-    <br>
-<div class="row justify-content-center mt-5">
-        <div class="col-md-7 text-center">
 
-                 <h2>Soumettre un article pour un journal</h2>
-        <a role="button" class="btn btn-primary btn-lg" href="{% url 'signupuser' %}">Débuter</a>
+<div class="row justify-content-center mt-5" style="text-align: center">
+    <h1>Organisation Scientifique UQAM - MGL7361 Équipe 7</h1>
+</div>
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-7 text-center">
+        {% if user.is_authenticated %}
+        <h2 style="margin-bottom: 30px;">Soumettre un article pour un journal</h2>
+        <div>
+            <a role="button" class="btn btn-primary btn-lg" href="{% url 'articles' %}">Voir mes articles</a>
         </div>
+        {% if user.is_superuser %}
+        <div style="margin-top: 20px">
+            <a role="button" class="btn btn-outline-primary btn-lg" href="{% url 'admin:index' %}">
+                Espace administrateur
+            </a>
+        </div>
+        {% endif %}
+        {% else %}
+        <a role="button" class="btn btn-outline-primary btn-lg" href="{% url 'login' %}">Se connecter</a>
+        <a role="button" class="btn btn-primary btn-lg" href="{% url 'signupuser' %}">Créer un compte</a>
+        {% endif %}
     </div>
+</div>
 
 {% endblock %}

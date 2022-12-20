@@ -34,15 +34,15 @@
             </a>
             <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
               <li><a class="dropdown-item" href="{% url 'password_change'%}">
-                  Change password</a></li>
-              <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                  Changer le mot de passe</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
             </ul>
           </div>
           {% else %}
           </ul>
           <div class="text-end">
-            <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Log In</a>
-            <a href="{% url 'signupuser' %}" class="btn btn-primary">Sign Up</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Se connecter</a>
+            <a href="{% url 'signupuser' %}" class="btn btn-primary">Créer un compte</a>
           </div>
           {% endif %}
         </div>
