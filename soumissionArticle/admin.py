@@ -15,7 +15,7 @@ class ComiteInline(admin.StackedInline):
     list_display = ['id']
 
     def has_add_permission(self, req, obj=None):
-        if obj.statut == Article.Statut.EN_ATTENTE:
+        if obj and obj.statut == Article.Statut.EN_ATTENTE:
             return True
         else:
             return False
